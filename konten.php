@@ -1,6 +1,6 @@
 <?php
 if (empty($_GET['p'])){
-    $title="Sistem Informasi Biaya Pendidikan";
+    $title="App Kasir";
     $konten="konten/home.php";
 }
 else if($_GET['p']=='user'){
