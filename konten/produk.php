@@ -29,6 +29,7 @@
             <table  id="example1" class="table table-hover">
                 <thead class="bg-blue">
                     <th>ProdukID</th>
+                    <th>Barcode</th>
                     <th>Nama Produk</th>
                     <th>Harga</th>
                     <th>Stok</th>
@@ -42,6 +43,7 @@
 
                     <tr>
                         <td><?= $kolom['produkid']; ?></td>
+                        <td><?= $kolom['barcode']; ?></td>
                         <td><?= $kolom['namaproduk']; ?></td>
                         <td><?= $kolom['harga']; ?></td>
                         <td><?= $kolom['stok']; ?></td>
@@ -68,6 +70,9 @@
             <input type="hidden" name="aksi" value="ubah">
             <input type="hidden" name="produkid" value="<?=$kolom['produkid']; ?>">
 
+            <label for="barcode">Barcode</label>
+            <input type="number" name="barcode" value="<?=$kolom['barcode']; ?>" class="form-control" required>
+            <br>
             <label for="namaproduk">Nama Produk</label>
             <input type="text" name="namaproduk" value="<?=$kolom['namaproduk']; ?>" class="form-control" required>
             <br>
@@ -116,13 +121,16 @@
       <div class="modal-body">
         <form action="aksi/produk.php" method="post">
             <input type="hidden" name="aksi" value="tambah">
+            <label for="barcode">Barcode</label>
+            <input type="number" name="barcode" class="form-control" required>
+            <br>
             <label for="namaproduk">Nama Produk</label>
             <input type="text" name="namaproduk" class="form-control" required>
             <br>
             <label for="harga">Harga</label>
             <input type="number" name="harga" class="form-control" required>
             <br>
-            <label for="stok">Stock</label>
+            <label for="stok">Stok</label>
             <input type="number" name="stok" class="form-control" required>
             <br>
             <button type="submit" class="btn btn-block bg-blue"> <i class="fas fa-save"></i> Simpan </button>
@@ -132,5 +140,5 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
-  </div>
+</div>
 </div>
