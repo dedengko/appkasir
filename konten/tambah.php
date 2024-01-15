@@ -31,7 +31,8 @@
             <!-- FORM CARI PRODUK-->
             <div class="form-row">
                 <div class="form-group col-sm-2">
-                    <form action="">
+                    <form action="aksi/penjualan.php" method='post'>
+                      <input type="hidden" name="aksi" value="tambah-keranjang-bybarcode">
                         <input type="number" name="jumlah" class="form-control" value="1" placeholder="jumlah...">
                 </div>
                 <div class="form-group col-sm-4">
@@ -58,14 +59,28 @@
                         <th>subtotal</th>
                     </tr>
                     </thead>
+                    <?php
+                    $no=0;
+                    $id_user=$_SESSION['id'];
+                    $sql_keranjang="SELECT keranjang.*,produk.namaproduk,produk.harga FROM keranjang,produk WHERE keranjang.produkid=produk.produkid AND  id_user=$id_user";
+                    $query_keranjang=mysqli_query($koneksi,$sql_keranjang);
+                    while($keranjang=mysqli_fetch_array($query_keranjang)){
+                      $no++;
+                      $subtotal=$keranjang['harga']*$keranjang['jumlah'];
+                    ?>
                     <tr>
                         <td><a href="#"><i class="fas fa-trash"></i></a></td>
-                        <td>1</td>
-                        <td>Fiesta Chicken Nugget 500G</td>
-                        <td align="right">34,500</td>
-                        <td align="right">2</td>
+                        <td><?= $no; ?></td>
+                        <td><?= $keranjang['namaproduk']; ?></td>
+                        <td align="right"><?= number_format($keranjang['harga']); ?></td>
+                        <td align="right"><?= number_format($subtotal);?></td>
                         <td align="right">69,000</td>
                     </tr>
+
+                  <?php
+                  }
+                   ?>
+
                     <tr class="text-bold">
                         <td colspan="4">Total</td>
                         <td align="right">2</td>
