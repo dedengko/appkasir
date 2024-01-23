@@ -4,7 +4,7 @@ include "../koneksi.php";
 include "../function.php";
 
 if ($_POST) {
-  if($_POST['aksi']=="tambah-keranjang-bybarcode"){
+  if($_POST['aksi']=='tambah-keranjang-bybarcode'){
     $id_user=$_SESSION['id'];
     $barcode=$_POST['barcode'];
     $jumlah=$_POST['jumlah'];
@@ -59,8 +59,33 @@ if ($_POST) {
 
     $sql1="INSERT INTO penjualan(PenjualanID,TanggalPenjualan,TotalHarga,PelangganID) VALUES(Default,'$TanggalPenjualan',$TotalHarga,$PelangganID)";
     //echo $sql1;
-   if(mysqli_query($koneksi,$sql1)){
-    echo "Simpan penjualan sukses";
+  if(mysqli_query($koneksi,$sql1)){
+    //echo "Simpan penjualan sukses";
+    //Mengambil PenjualanID dari Tabel Penjualan
+    $sql2="SELECT MAX(PenjualanID) AS LastID FROM penjualan";
+    $query2=mysqli_query($koneksi,$sql2);
+    $data=mysqli_fetch_array($query2);
+    $PenjualanID=$data['LastID'];
+    //echo $PenjualanID;
+
+    //Menyimpan Data Produk  Yang Di Beli  ke tabel detailpenjualan yang di ambil dari tabel belanja
+    $sql3="SELECT keranjang.*,produk.Harga FROM keranjang,produk WHERE keranjang.ProdukID=produk.ProdukID AND id_user=$id_user";
+    //echo $sql3;
+
+    $query3=mysqli_query($koneksi,$sql3);
+    while($keranjang=mysqli_fetch_array($query3)){
+      $produkid=$keranjang['produkid'];
+      $jumlah=$keranjang['jumlah'];
+      $Harga=$keranjang['Harga'];
+
+      $sql4="INSERT INTO detailpenjualan(DetailID,PenjualanID,produkid,JumlahProduk,Harga) values(default,$PenjualanID,$produkid,$jumlah,$Harga)";
+      //echo $sql4."<br>";
+      mysqli_query($koneksi,$sql4);
+    }
+    //Mengosongkan Keranjang 
+    mysqli_query($koneksi,"DELETE FROM keranjang WHERE id_user=$id_user");
+    notifikasi($koneksi);
+    header('location:../index.php?p=tambah');
    }
   }
 }
@@ -74,6 +99,15 @@ if ($_GET) {
         mysqli_query($koneksi, $sql);
         notifikasi($koneksi);
         header('location:../index.php?p=tambah');
+}
+    if ($_GET['aksi'] == 'hapus') {
+        $PenjualanID = $_GET['PenjualanID'];
+        $sql1 = "DELETE FROM penjualan WHERE PenjualanID=$PenjualanID";
+        mysqli_query($koneksi, $sql1);
+        $sql2="DELETE FROM detailpenjualan WHERE PenjualanID=$PenjualanID";
+        mysqli_query($koneksi, $sql2);
+        notifikasi($koneksi);
+        header('location:../index.php?p=History');
 }
 }
 ?>
