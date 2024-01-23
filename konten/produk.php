@@ -23,7 +23,7 @@
      <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h5>Data Produk</h5>
+            <h5>Data Produkk</h5>
         </div>
         <div class="card-body">
             <table  id="example1" class="table table-hover">
