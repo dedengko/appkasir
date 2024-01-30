@@ -27,6 +27,10 @@ else if($_GET['p']=='restore'){
     $title="Restore Sistem";
     $konten="konten/restore.php";
 }
+else if($_GET['p']=='backup'){
+    $title="backup data";
+    $konten="konten/backup.php";
+}
 else if($_GET['p']=='produk'){
     $title="Produk";
     $konten="konten/produk.php";

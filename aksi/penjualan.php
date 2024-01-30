@@ -81,6 +81,11 @@ if ($_POST) {
       $sql4="INSERT INTO detailpenjualan(DetailID,PenjualanID,produkid,JumlahProduk,Harga) values(default,$PenjualanID,$produkid,$jumlah,$Harga)";
       //echo $sql4."<br>";
       mysqli_query($koneksi,$sql4);
+
+      //mengurangi nilai stok
+      $sql5="UPDATE produk SET stok=stok-$jumlah WHERE produkid=$produkid";
+      mysqli_query($koneksi,$sql5);
+
     }
     //Mengosongkan Keranjang 
     mysqli_query($koneksi,"DELETE FROM keranjang WHERE id_user=$id_user");
@@ -107,7 +112,7 @@ if ($_GET) {
         $sql2="DELETE FROM detailpenjualan WHERE PenjualanID=$PenjualanID";
         mysqli_query($koneksi, $sql2);
         notifikasi($koneksi);
-        header('location:../index.php?p=History');
+        header('location:../index.php?p=history');
 }
 }
 ?>
